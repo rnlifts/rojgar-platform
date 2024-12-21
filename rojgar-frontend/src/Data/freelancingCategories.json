@@ -1,0 +1,104 @@
+[
+    {
+      "category": "IT & Software",
+      "skills": [
+        "Web Development",
+        "Mobile App Development",
+        "Data Science",
+        "AI/ML Development",
+        "Cybersecurity",
+        "CRM Integration (e.g., Salesforce)",
+        "Cloud Computing",
+        "API Development"
+      ]
+    },
+    {
+      "category": "Design & Creative",
+      "skills": [
+        "Graphic Design",
+        "UI/UX Design",
+        "3D Modeling",
+        "Animation",
+        "Video Editing",
+        "Motion Graphics",
+        "Branding and Logo Design"
+      ]
+    },
+    {
+      "category": "Writing & Translation",
+      "skills": [
+        "Copywriting",
+        "Content Writing",
+        "Technical Writing",
+        "Ghostwriting",
+        "Creative Writing",
+        "Blog Writing",
+        "Translation (e.g., English to Spanish)"
+      ]
+    },
+    {
+      "category": "Marketing & Sales",
+      "skills": [
+        "Social Media Marketing",
+        "SEO",
+        "PPC Campaigns",
+        "Email Marketing",
+        "Affiliate Marketing",
+        "Market Research",
+        "Lead Generation"
+      ]
+    },
+    {
+      "category": "Finance & Accounting",
+      "skills": [
+        "Bookkeeping",
+        "Tax Preparation",
+        "Financial Analysis",
+        "Auditing",
+        "Business Plans",
+        "Payroll Management"
+      ]
+    },
+    {
+      "category": "Legal & Consultancy",
+      "skills": [
+        "Contract Drafting",
+        "Legal Advice",
+        "Business Strategy",
+        "Market Analysis",
+        "Startup Consultancy"
+      ]
+    },
+    {
+      "category": "Education & Training",
+      "skills": [
+        "Online Tutoring",
+        "Curriculum Development",
+        "Skill Training (e.g., Excel, Photoshop)",
+        "Exam Preparation",
+        "Language Tutoring"
+      ]
+    },
+    {
+      "category": "Admin & Support",
+      "skills": [
+        "Virtual Assistance",
+        "Data Entry",
+        "Transcription",
+        "Customer Support",
+        "Scheduling and Calendar Management"
+      ]
+    },
+    {
+      "category": "Engineering & Architecture",
+      "skills": [
+        "CAD Design",
+        "Product Design",
+        "Structural Analysis",
+        "Architectural Drafting",
+        "Mechanical Engineering",
+        "Electrical Engineering"
+      ]
+    }
+  ]
+  

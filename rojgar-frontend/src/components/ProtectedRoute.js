@@ -1,35 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(true); // Track loading state
+  const location = useLocation();
+  const [tokenProcessed, setTokenProcessed] = useState(false);
+  const [redirectToLogin, setRedirectToLogin] = useState(false);
 
-    useEffect(() => {
-        console.log("ProtectedRoute useEffect triggered");
+  useEffect(() => {
+    // Check for token in the URL
+    const queryParams = new URLSearchParams(location.search);
+    const token = queryParams.get("token");
 
-        const token = localStorage.getItem("authToken");
-        console.log("ProtectedRoute: Token in localStorage:", token);
-
-        if (token) {
-            setIsAuthenticated(true);
-        } else {
-            console.log("No token found in ProtectedRoute.");
-        }
-
-        setLoading(false); // End loading
-    }, []);
-
-    if (loading) {
-        return <div>Loading...</div>; // Show a loading message while checking authentication
+    if (token) {
+      localStorage.setItem("token", token); // Save token to localStorage
+      queryParams.delete("token");
+      window.history.replaceState({}, document.title, location.pathname); // Clean up the URL
+    } else {
+      setRedirectToLogin(true); // No token in URL, redirect to login
     }
+    setTokenProcessed(true); // Mark token as processed
+  }, [location]);
 
-    if (!isAuthenticated) {
-        console.log("Redirecting to login...");
-        return <Navigate to="/login" replace />;
-    }
+  const storedToken = localStorage.getItem("token");
 
-    return children;
+  if (redirectToLogin) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!tokenProcessed) {
+    // Wait until token is processed
+    return <div>Loading...</div>;
+  }
+
+  if (!storedToken) {
+    // If no token, redirect to login
+    return <Navigate to="/login" replace />;
+  }
+
+  return children; // Render the child component if authenticated
 };
 
 export default ProtectedRoute;
