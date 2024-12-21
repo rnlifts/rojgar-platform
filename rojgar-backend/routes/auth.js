@@ -1,10 +1,19 @@
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+
+
 const router = express.Router();
-const { signup, verifyOtp, login, setOnboarding } = require("../controllers/authController");
+const { signup, verifyOtp, login, setOnboarding, verifyToken, updateRole } = require("../controllers/authController");
 const authenticate = require("../middlewares/authenticate"); // Middleware for token verification
 const User = require("../models/user");
+
+router.post("/update-role", authenticate, updateRole);
+
+router.get("/get-user", authenticate, (req, res) => {
+  const { id, email, role } = req.user;
+  res.json({ currentRole: role, id, email });
+});
 
 // Signup Route
 router.post("/register", signup);
@@ -27,7 +36,7 @@ router.get(
         return res.redirect("http://localhost:3000/register");
       }
 
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
 
@@ -49,5 +58,8 @@ router.post("/login", login);
 
 // Onboarding Route
 router.post("/set-onboarding", authenticate, setOnboarding);
+
+// Token Verification Route
+router.post("/verify-token", verifyToken);
 
 module.exports = router;

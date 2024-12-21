@@ -98,7 +98,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "Incorrect password." });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
@@ -134,5 +134,41 @@ exports.setOnboarding = async (req, res) => {
   } catch (error) {
     console.error("Error updating onboarding:", error);
     res.status(500).json({ message: "Failed to update onboarding status" });
+  }
+};
+
+
+// Update User Role
+exports.updateRole = async (req, res) => {
+  const { newRole } = req.body;
+
+  if (!["Freelancer", "Client"].includes(newRole)) {
+    return res.status(400).json({ message: "Invalid role" });
+  }
+
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.role = newRole;
+    await user.save();
+
+    res.status(200).json({ message: "Role updated successfully", currentRole: user.role });
+  } catch (error) {
+    console.error("Error updating role:", error);
+    res.status(500).json({ message: "Failed to update role" });
+  }
+};
+// Verify Token Logic
+exports.verifyToken = async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ valid: true, userId: decoded.id, email: decoded.email });
+  } catch (error) {
+    res.status(401).json({ valid: false, message: "Invalid or expired token" });
   }
 };
