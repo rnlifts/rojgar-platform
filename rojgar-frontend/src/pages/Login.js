@@ -1,4 +1,6 @@
 import axios from "axios";
+import googleLogo from '../logo/google.png';
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -77,9 +79,10 @@ const Login = () => {
         <div className="mt-6 flex justify-center">
           <button
             onClick={() => (window.location.href = "http://localhost:5000/api/auth/google")}
-            className="flex items-center bg-red-500 text-white py-2 px-4 rounded-lg"
+            className="flex items-center bg-gray-500 text-white py-2 px-4 rounded-lg"
           >
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" className="h-5 w-5 mr-2" />
+           <img src={googleLogo} alt="Google logo" className="h-5 w-5 mr-2" />
+
             Continue with Google
           </button>
         </div>

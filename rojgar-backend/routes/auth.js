@@ -11,8 +11,8 @@ const User = require("../models/user");
 router.post("/update-role", authenticate, updateRole);
 
 router.get("/get-user", authenticate, (req, res) => {
-  const { id, email, role } = req.user;
-  res.json({ currentRole: role, id, email });
+  const { id, email, role, name } = req.user;
+  res.json({ currentRole: role, id, email, name });
 });
 
 // Signup Route
@@ -36,9 +36,10 @@ router.get(
         return res.redirect("http://localhost:3000/register");
       }
 
-      const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ id: user._id, email: user.email, name: user.name }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
+      
 
       // Check onboarding status and redirect accordingly
       if (user.onBoarding) {

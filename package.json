@@ -1,10 +1,16 @@
 {
   "dependencies": {
+    "@mantine/core": "^6.0.0",
+    "@mantine/hooks": "^6.0.0",
+    "@mantine/rte": "^6.0.0",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "formik": "^2.4.6",
     "mongoose": "^8.8.4",
-    "react-toastify": "^10.0.6"
+    "react-quill": "^2.0.0-beta.2",
+    "react-toastify": "^10.0.6",
+    "yup": "^1.6.1"
   }
 }

@@ -9,12 +9,49 @@ function Signup() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "", otp: "" });
   const navigate = useNavigate();
 
+  // Handle input changes for all fields
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Form validation
+  const validateForm = () => {
+    if (formData.name.trim().length < 3) {
+      toast.error("Name must be at least 3 characters long.");
+      return false;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      return false;
+    }
+  
+    // Updated regex to allow special characters
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(formData.password)) {
+      toast.error(
+        "Password must be at least 8 characters long, with at least one uppercase letter, one lowercase letter, one number, and one special character."
+      );
+      return false;
+    }
+  
+    return true;
+  };
+  
+
+  const validateOtp = () => {
+    if (!/^\d{6}$/.test(formData.otp)) {
+      toast.error("OTP must be a 6-digit number.");
+      return false;
+    }
+    return true;
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const response = await axios.post("http://localhost:5000/api/auth/register", formData);
       toast.success(response.data.message);
@@ -26,6 +63,8 @@ function Signup() {
 
   const handleOtpVerification = async (e) => {
     e.preventDefault();
+    if (!validateOtp()) return;
+
     try {
       const response = await axios.post("http://localhost:5000/api/auth/verify-otp", {
         email: formData.email,
@@ -81,8 +120,26 @@ function Signup() {
                 required
               />
             </div>
-            <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg">
+            <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg mb-4">
               Sign Up
+            </button>
+
+            <div className="flex justify-center items-center mb-4">
+              <div className="w-full h-px bg-gray-300"></div>
+              <span className="px-2 text-gray-500">OR</span>
+              <div className="w-full h-px bg-gray-300"></div>
+            </div>
+
+            <button
+              onClick={() => (window.location.href = "http://localhost:5000/api/auth/google")}
+              className="flex items-center justify-center w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                alt="Google logo"
+                className="h-5 w-5 mr-2"
+              />
+              Continue with Google
             </button>
           </form>
         ) : (
