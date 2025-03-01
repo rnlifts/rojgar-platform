@@ -15,6 +15,38 @@ router.get("/get-user", authenticate, (req, res) => {
   res.json({ currentRole: role, id, email, name });
 });
 
+
+router.get("/user/:id", authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .select("name email role -_id");
+    
+    if (!user) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "User not found" 
+      });
+    }
+
+    res.json({ 
+      success: true,
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Server error",
+      error: error.message 
+    });
+  }
+});
+
+
 // Signup Route
 router.post("/register", signup);
 
